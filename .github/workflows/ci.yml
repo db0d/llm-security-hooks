@@ -16,11 +16,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5.1.0
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6.8.0
-        with:
-          python-version: "3.14"
-          enable-cache: false
+      - name: Install uv + Python 3.14
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.local/bin:$PATH"
+          uv python install 3.14
+          PY="$(uv python find 3.14)"
+          ln -sfn "$PY" "$HOME/.local/bin/python3.14"
+          python3.14 --version
 
       - name: Syntax-check hook scripts
         run: |
