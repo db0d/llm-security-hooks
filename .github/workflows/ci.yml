@@ -20,6 +20,7 @@ jobs:
         uses: astral-sh/setup-uv@v6.8.0
         with:
           python-version: "3.14"
+          enable-cache: false
 
       - name: Syntax-check hook scripts
         run: |
