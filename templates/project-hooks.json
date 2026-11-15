@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/security/session_start.py",
+        "timeout": 15
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": ".cursor/hooks/security/post_edit_scan.py",
+        "matcher": "Write|StrReplace|EditNotebook",
+        "timeout": 90
+      },
+      {
+        "command": ".cursor/hooks/security/post_shell_scan.py",
+        "matcher": "Shell",
+        "timeout": 300
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/security/stop_scan.py",
+        "timeout": 900,
+        "loop_limit": 3
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": ".cursor/hooks/security/session_end.py",
+        "timeout": 30
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+build/
+*.egg-info/
+
+# Hook runtime (if testing project-local install)
+.cursor/hooks/security/state/
+.cursor/hooks/security/logs/
+.cursor/hooks/security/reports/
+.cursor/hooks/security/codeql-dbs/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+.env
+.env.*

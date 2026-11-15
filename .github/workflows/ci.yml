@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+
+      - name: Syntax-check hook scripts
+        run: |
+          python3.14 -m py_compile hooks/security/*.py
+          bash -n install.sh
+
+      - name: Hooks-only dry install (project mode)
+        run: |
+          mkdir -p /tmp/llm-hooks-smoke
+          ./install.sh --hooks-only --project /tmp/llm-hooks-smoke
+          test -f /tmp/llm-hooks-smoke/.cursor/hooks.json
+          test -x /tmp/llm-hooks-smoke/.cursor/hooks/security/post_edit_scan.py
